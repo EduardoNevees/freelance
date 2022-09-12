@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"github.com/EduardoNevesRamos/frelancer.git/adapters/api"
+	"github.com/EduardoNevesRamos/frelancer.git/common/env"
+)
 
 func main() {
-	fmt.Println("...")
+	env.Load()
+	// db.Start()
+
+	server := api.New()
+	server.Run()
 }
