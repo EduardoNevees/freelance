@@ -2,12 +2,8 @@ package db
 
 import (
 	"errors"
-	"fmt"
 	"log"
 
-	_ "github.com/lib/pq"
-
-	"github.com/EduardoNevesRamos/frelancer.git/common/env"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -23,7 +19,7 @@ func Start() {
 
 func tryOpenConnection() error {
 
-	dsn := getUrlConnection()
+	dsn := "postgres://dev:dev@localhost:5432/teste_dev?sslmode=disable"
 
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -34,16 +30,15 @@ func tryOpenConnection() error {
 	return nil
 }
 
-func getUrlConnection() string {
-
-	return fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		env.DataBase.USER,
-		env.DataBase.PASSWORD,
-		env.DataBase.HOST,
-		env.DataBase.PORT,
-		env.DataBase.DB_NAME,
-	)
-}
+// func getUrlConnection() string {
+// 	return fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
+// 		env.DataBase.HOST,
+// 		env.DataBase.PORT,
+// 		env.DataBase.USER,
+// 		env.DataBase.DB_NAME,
+// 		env.DataBase.PASSWORD,
+// 	)
+// }
 
 func Get() *gorm.DB {
 	return db

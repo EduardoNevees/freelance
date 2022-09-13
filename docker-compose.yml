@@ -1,19 +1,22 @@
-version: '3.1'
-services:
-    postgres:
-        image: 'sameersbn/postgresql:12-20200524'
-        container_name: digital-users-db
-        restart: unless-stopped
-        tty: true
-        environment:
-            - POSTGRES_DB=digital_users
-            - POSTGRES_USER=root
-            - POSTGRES_PASSWORD=digital-users@120902
-            - PGDATA=/var/lib/postgresql/data/digital-users
-        ports:
-            - '5432:5432'               
-        volumes:
-            - digital-users:/var/lib/postgresql/data
+version: "3.5"
 
-volumes:
-  digital-users:
+services:
+  postgres:
+    image: 'postgres:14.5-alpine'
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      PGDATA: /data/postgres
+      POSTGRES_DB: "teste_dev"
+    volumes:
+       - ./.docker/postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    
+    networks:
+      - teste-network
+
+networks: 
+    teste-network:
+      driver: bridge
