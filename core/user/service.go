@@ -46,10 +46,13 @@ func (s *UserService) GetUserById(id string) (*model.User, error) {
 }
 
 func (s *UserService) CreateUser() (*model.User, error) {
-	userResponse, err := s.repository.CreateUser()
+	user := &model.User{}
+
+	userResponse, err := s.repository.CreateUser(user)
 	if err != nil {
 		return nil, err
 	}
+
 	return userResponse, nil
 }
 

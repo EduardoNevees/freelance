@@ -1,6 +1,7 @@
 package user
 
 import (
+	"github.com/EduardoNevesRamos/frelancer.git/common"
 	"github.com/gin-gonic/gin"
 )
 
@@ -9,6 +10,7 @@ type IUserController interface {
 	GetUserById(context *gin.Context)
 	CreateUser(context *gin.Context)
 	UpdateUser(context *gin.Context)
+	DeleteUser(context *gin.Context)
 }
 
 type UserController struct {
@@ -45,7 +47,6 @@ func (c *UserController) GetUserById(context *gin.Context) {
 }
 
 func (c *UserController) CreateUser(context *gin.Context) {
-
 	userResponse, err := c.service.CreateUser()
 	if err != nil {
 		context.JSON(400, err)
@@ -57,6 +58,8 @@ func (c *UserController) CreateUser(context *gin.Context) {
 			"Error:": "Can't bind JSON" + err.Error(),
 		})
 	}
+
+	userResponse.Password = common.SHA256Enconder(userResponse.Password)
 
 	context.JSON(201, userResponse)
 }

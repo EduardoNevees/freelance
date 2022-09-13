@@ -10,7 +10,7 @@ import (
 type IRepository interface {
 	GetUsers() ([]*model.User, error)
 	GetUserById(id int) (*model.User, error)
-	CreateUser() (*model.User, error)
+	CreateUser(user *model.User) (*model.User, error)
 	UpdateUser() (*model.User, error)
 	DeleteUser(parseId int) error
 }
@@ -47,9 +47,7 @@ func (r *UsersRepository) GetUserById(id int) (*model.User, error) {
 	return &user, nil
 }
 
-func (r *UsersRepository) CreateUser() (*model.User, error) {
-	user := &model.User{}
-
+func (r *UsersRepository) CreateUser(user *model.User) (*model.User, error) {
 	err := r.db.Create(user).Error
 	if err != nil {
 		return nil, errors.New("can't create user")

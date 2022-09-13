@@ -5,16 +5,22 @@ type ServerEnv struct {
 }
 
 type DataBaseEnv struct {
-	HOST     string `env:"MYSQL_HOST"`
-	USER     string `env:"MYSQL_USER"`
-	SQL_PORT string `env:"MYSQL_PORT"`
-	DB_NAME  string `env:"MYSQL_DB_NAME"`
-	PASSWORD string `env:"MYSQL_PASSWORD"`
+	HOST     string `env:"POSTGRES_HOST"`
+	USER     string `env:"POSTGRES_USER"`
+	PORT     string `env:"POSTGRES_PORT"`
+	DB_NAME  string `env:"POSTGRES_DB"`
+	PASSWORD string `env:"POSTGRES_PASSWORD"`
+}
+
+type JwtEnv struct {
+	SECRET_KEY string `env:"SECRET_KEY"`
+	ISSURE     string `env:"ISSURE"`
 }
 
 var Server ServerEnv
 var DataBase DataBaseEnv
+var JWT JwtEnv
 
 func Load() {
-	LoadEnv(&Server, &DataBase)
+	LoadEnv(&Server, &DataBase, &JWT)
 }

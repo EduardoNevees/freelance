@@ -1,11 +1,19 @@
 version: '3.1'
 services:
     mysql:
-        image: 'mysql:8.0'
+        image: 'postgres:13.2'
+        container_name: digital-users-db
+        restart: unless-stopped
+        tty: true
         environment:
-            - MYSQL_ROOT_PASSWORD=
-            - MYSQL_DATABASE=
-            - MYSQL_USER=
-            - MYSQL_PASSWORD=
+            - POSTGRES_DB=digital_users
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=digital-users@120902
+            - PGDATA=/var/lib/postgresql/data/digital-users
         ports:
-            - '3306:3306'
+            - '25432:5432'               
+        volumes:
+            - digital-users:/var/lib/postgresql/data
+
+volumes:
+  digital-users:

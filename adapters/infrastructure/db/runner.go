@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/EduardoNevesRamos/frelancer.git/common/env"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -23,7 +23,7 @@ func tryOpenConnection() error {
 
 	dsn := getUrlConnection()
 
-	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return errors.New("there was an error connecting to the database")
 	}
@@ -33,12 +33,12 @@ func tryOpenConnection() error {
 }
 
 func getUrlConnection() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		env.DataBase.USER,
-		env.DataBase.PASSWORD,
+	return fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
 		env.DataBase.HOST,
-		env.DataBase.SQL_PORT,
+		env.DataBase.PORT,
+		env.DataBase.USER,
 		env.DataBase.DB_NAME,
+		env.DataBase.PASSWORD,
 	)
 }
 
