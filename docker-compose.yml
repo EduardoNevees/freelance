@@ -1,17 +1,17 @@
 version: '3.1'
 services:
-    mysql:
-        image: 'postgres:13.2'
+    postgres:
+        image: 'sameersbn/postgresql:12-20200524'
         container_name: digital-users-db
         restart: unless-stopped
         tty: true
         environment:
             - POSTGRES_DB=digital_users
-            - POSTGRES_USER=admin
+            - POSTGRES_USER=root
             - POSTGRES_PASSWORD=digital-users@120902
             - PGDATA=/var/lib/postgresql/data/digital-users
         ports:
-            - '25432:5432'               
+            - '5432:5432'               
         volumes:
             - digital-users:/var/lib/postgresql/data
 

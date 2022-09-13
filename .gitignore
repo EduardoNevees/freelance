@@ -1,0 +1,52 @@
+### Sonarcube
+.scannerwork
+
+### Goland JETbrains ###
+.idea/
+
+### Visual Studio Code ###
+.vscode/
+__debug_bin.exe
+
+### Git ###
+.git/
+
+### Docker (Compose) ###
+docker-compose.yml
+
+### Envs ###
+*env.json
+.env
+.env.dev
+.env.staging
+.env.production
+*credentials.json
+
+### Coverage ###
+cover.html
+fmtcoverage.html
+cover.out
+
+### Output Files ###
+*.out
+go-api
+
+### Other Files ###
+vendor
+debug/
+.DS_Store
+__debug_bin
+
+
+### Cert ###
+key.pem
+cert.pem
+ca.pem
+
+### VIM ###
+*.swp
+*.swo
+
+
+#exe
+frelancer
