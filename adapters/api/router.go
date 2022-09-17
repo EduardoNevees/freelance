@@ -11,7 +11,7 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 
 	{
 		userControllerWithDependencies := dependency.UserDependency()
-		users := main.Group("user")
+		users := main.Group("user", middleware.Auth())
 		{
 			users.GET("/", userControllerWithDependencies.GetUsers)
 			users.GET("/:id", userControllerWithDependencies.GetUserById)
@@ -21,10 +21,8 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 		}
 
 		loginControllerWithDependencies := dependency.LoginDependency()
-		Login := main.Group("login", middleware.Auth())
-		{
-			Login.POST("/", loginControllerWithDependencies.Login)
-		}
+		main.POST("login", loginControllerWithDependencies.Login)
+
 	}
 
 	return router

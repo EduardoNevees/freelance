@@ -1,9 +1,11 @@
 package db
 
 import (
+	"fmt"
 	"log"
 	"time"
 
+	"github.com/EduardoNevesRamos/frelancer.git/common/env"
 	"gorm.io/driver/mysql"
 
 	"gorm.io/gorm"
@@ -17,7 +19,7 @@ func Start() {
 
 func tryOpenConnection() {
 
-	dsn := "admin:digital-users@120902@tcp(localhost:3306)/digital_users?parseTime=true&loc=Local"
+	dsn := getUrlConnection()
 
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -34,15 +36,15 @@ func tryOpenConnection() {
 	RunMigrations(db)
 }
 
-// func getUrlConnection() string {
-// 	return fmt.Sprintf("%s:%s@tcp(%s:%s)%s?parseTime=true&loc=Local",
-// 		env.DataBase.USER,
-// 		env.DataBase.PASSWORD,
-// 		env.DataBase.HOST,
-// 		env.DataBase.PORT,
-// 		env.DataBase.DB_NAME,
-// 	)
-// }
+func getUrlConnection() string {
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)%s?parseTime=true&loc=Local",
+		env.DataBase.USER,
+		env.DataBase.PASSWORD,
+		env.DataBase.HOST,
+		env.DataBase.PORT,
+		env.DataBase.DB_NAME,
+	)
+}
 
 func Get() *gorm.DB {
 	return db
