@@ -1,42 +1,46 @@
 package db
 
 import (
-	"errors"
 	"log"
+	"time"
 
-	"gorm.io/driver/postgres"
+	"gorm.io/driver/mysql"
+
 	"gorm.io/gorm"
 )
 
 var db *gorm.DB
 
 func Start() {
-	err := tryOpenConnection()
-	if err != nil {
-		log.Fatal(err)
-	}
+	tryOpenConnection()
 }
 
-func tryOpenConnection() error {
+func tryOpenConnection() {
 
-	dsn := "postgres://dev:dev@localhost:5432/teste_dev?sslmode=disable"
+	dsn := "admin:digital-users@120902@tcp(localhost:3306)/digital_users?parseTime=true&loc=Local"
 
-	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return errors.New("there was an error connecting to the database")
+		log.Fatal("Error: ", err)
 	}
 
 	db = database
-	return nil
+
+	config, _ := db.DB()
+	config.SetMaxIdleConns(10)
+	config.SetMaxOpenConns(100)
+	config.SetConnMaxLifetime(time.Hour)
+
+	RunMigrations(db)
 }
 
 // func getUrlConnection() string {
-// 	return fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
+// 	return fmt.Sprintf("%s:%s@tcp(%s:%s)%s?parseTime=true&loc=Local",
+// 		env.DataBase.USER,
+// 		env.DataBase.PASSWORD,
 // 		env.DataBase.HOST,
 // 		env.DataBase.PORT,
-// 		env.DataBase.USER,
 // 		env.DataBase.DB_NAME,
-// 		env.DataBase.PASSWORD,
 // 	)
 // }
 

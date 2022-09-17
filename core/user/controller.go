@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/EduardoNevesRamos/frelancer.git/common"
+	"github.com/EduardoNevesRamos/frelancer.git/model"
 	"github.com/gin-gonic/gin"
 )
 
@@ -47,37 +48,43 @@ func (c *UserController) GetUserById(context *gin.Context) {
 }
 
 func (c *UserController) CreateUser(context *gin.Context) {
-	userResponse, err := c.service.CreateUser()
-	if err != nil {
-		context.JSON(400, err)
-	}
-
-	err = context.ShouldBindJSON(userResponse)
+	newUser := model.User{}
+	err := context.ShouldBindJSON(&newUser)
 	if err != nil {
 		context.JSON(400, gin.H{
 			"Error:": "Can't bind JSON" + err.Error(),
 		})
+		return
 	}
 
-	userResponse.Password = common.SHA256Enconder(userResponse.Password)
+	err = c.service.CreateUser(&newUser)
+	if err != nil {
+		context.JSON(400, err)
+	}
 
-	context.JSON(201, userResponse)
+	newUser.Password = common.SHA256Enconder(newUser.Password)
+
+	context.JSON(201, newUser)
 }
 
 func (c *UserController) UpdateUser(context *gin.Context) {
-	userResponse, err := c.service.UpdateUser()
-	if err != nil {
-		context.JSON(400, err)
-	}
+	id := context.Param("id")
 
-	err = context.ShouldBindJSON(userResponse)
+	user := &model.User{}
+	err := context.ShouldBindJSON(&user)
 	if err != nil {
 		context.JSON(400, gin.H{
 			"Error:": "Can't bind JSON" + err.Error(),
 		})
+		return
 	}
 
-	context.JSON(200, userResponse)
+	err = c.service.UpdateUser(user, id)
+	if err != nil {
+		context.JSON(400, err)
+	}
+
+	context.JSON(200, user)
 }
 
 func (c *UserController) DeleteUser(context *gin.Context) {
@@ -85,7 +92,7 @@ func (c *UserController) DeleteUser(context *gin.Context) {
 
 	err := c.service.DeleteUser(id)
 	if err != nil {
-		context.JSON(400, err)
+		context.JSON(500, err)
 		return
 	}
 

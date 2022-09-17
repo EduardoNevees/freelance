@@ -18,16 +18,15 @@ func NewLoginController(Service ILoginService) ILoginController {
 }
 
 func (c *LoginController) Login(context *gin.Context) {
-	login := &model.Login{}
-
-	err := context.ShouldBindJSON(login)
+	login := model.Login{}
+	err := context.ShouldBindJSON(&login)
 	if err != nil {
 		context.JSON(400, gin.H{
 			"Error:": "Can't bind JSON" + err.Error(),
 		})
 	}
 
-	token, err := c.service.Login(login)
+	token, err := c.service.Login(&login)
 	if err != nil {
 		context.JSON(200, gin.H{
 			"error": err,

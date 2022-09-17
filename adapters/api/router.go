@@ -14,7 +14,7 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 		users := main.Group("user")
 		{
 			users.GET("/", userControllerWithDependencies.GetUsers)
-			users.GET("/id", userControllerWithDependencies.GetUserById)
+			users.GET("/:id", userControllerWithDependencies.GetUserById)
 			users.POST("/", userControllerWithDependencies.CreateUser)
 			users.PUT("/:id", userControllerWithDependencies.UpdateUser)
 			users.DELETE("/:id", userControllerWithDependencies.DeleteUser)

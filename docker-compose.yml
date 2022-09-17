@@ -1,22 +1,12 @@
-version: "3.5"
-
+version: '3.1'
 services:
-  postgres:
-    image: 'postgres:14.5-alpine'
-    environment:
-      POSTGRES_USER: dev
-      POSTGRES_PASSWORD: dev
-      PGDATA: /data/postgres
-      POSTGRES_DB: "teste_dev"
-    volumes:
-       - ./.docker/postgres:/data/postgres
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
-    
-    networks:
-      - teste-network
+    mysql:
+        image: 'mysql:8.0'
+        environment:
+            - MYSQL_ROOT_PASSWORD=digital-users
+            - MYSQL_DATABASE=digital_users
+            - MYSQL_USER=admin
+            - MYSQL_PASSWORD=digital-users@120902
+        ports:
+            - '3306:3306'
 
-networks: 
-    teste-network:
-      driver: bridge

@@ -5,11 +5,11 @@ type ServerEnv struct {
 }
 
 type DataBaseEnv struct {
-	HOST     string `env:"POSTGRES_HOST"`
-	USER     string `env:"POSTGRES_USER"`
-	PORT     string `env:"POSTGRES_PORT"`
-	DB_NAME  string `env:"POSTGRES_DB"`
-	PASSWORD string `env:"POSTGRES_PASSWORD"`
+	HOST     string `env:"MYSQL_HOST"`
+	USER     string `env:"MYSQL_USER"`
+	PORT     string `env:"MYSQL_PORT"`
+	DB_NAME  string `env:"MYSQL_DATABASE"`
+	PASSWORD string `env:"MYSQL_PASSWORD"`
 }
 
 type JwtEnv struct {

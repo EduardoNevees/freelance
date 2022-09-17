@@ -2,17 +2,18 @@ package user
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/EduardoNevesRamos/frelancer.git/model"
 	"gorm.io/gorm"
 )
 
 type IRepository interface {
-	GetUsers() ([]*model.User, error)
+	GetUsers() ([]model.User, error)
 	GetUserById(id int) (*model.User, error)
-	CreateUser(user *model.User) (*model.User, error)
-	UpdateUser() (*model.User, error)
-	DeleteUser(parseId int) error
+	CreateUser(user *model.User) error
+	UpdateUser(user *model.User, id *int) error
+	DeleteUser(parseId *int) error
 }
 
 type UsersRepository struct {
@@ -25,52 +26,50 @@ func NewUserRepository(dataBase *gorm.DB) IRepository {
 	}
 }
 
-func (r *UsersRepository) GetUsers() ([]*model.User, error) {
-	users := []*model.User{}
+func (r *UsersRepository) GetUsers() ([]model.User, error) {
+	users := []model.User{}
 
 	err := r.db.Find(&users).Error
 	if err != nil {
-		return nil, errors.New("can't find users at database")
+		return nil, fmt.Errorf("can't find users %v", err)
 	}
 
 	return users, nil
 }
 
 func (r *UsersRepository) GetUserById(id int) (*model.User, error) {
-	user := model.User{}
+	var user model.User
 
 	err := r.db.First(&user, id).Error
 	if err != nil {
-		return nil, errors.New("can't find user by id at database")
+		return &model.User{}, fmt.Errorf("cannot find products by id: %v", err)
 	}
 
 	return &user, nil
 }
 
-func (r *UsersRepository) CreateUser(user *model.User) (*model.User, error) {
-	err := r.db.Create(user).Error
+func (r *UsersRepository) CreateUser(user *model.User) error {
+	err := r.db.Create(&user).Error
 	if err != nil {
-		return nil, errors.New("can't create user")
+		return errors.New("can't create user")
 	}
 
-	return user, nil
+	return nil
 }
 
-func (r *UsersRepository) UpdateUser() (*model.User, error) {
-	user := &model.User{}
-
-	err := r.db.Save(user).Error
+func (r *UsersRepository) UpdateUser(user *model.User, id *int) error {
+	err := r.db.Where(&id).Save(&user).Error
 	if err != nil {
-		return nil, errors.New("can't update user")
+		return errors.New("can't update user")
 	}
 
-	return user, nil
+	return nil
 }
 
-func (r *UsersRepository) DeleteUser(parseId int) error {
+func (r *UsersRepository) DeleteUser(parseId *int) error {
 	user := &model.User{}
 
-	err := r.db.Delete(user, parseId).Error
+	err := r.db.Where(&parseId).Delete(&user).Error
 	if err != nil {
 		return errors.New("can't delete user")
 	}
