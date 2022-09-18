@@ -9,6 +9,5 @@ func LoginDependency() login.ILoginController {
 	loginRepository := login.NewLoginRepository(db.Get())
 	loginService := login.NewLoginService(loginRepository)
 	loginController := login.NewLoginController(loginService)
-
 	return loginController
 }

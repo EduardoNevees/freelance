@@ -62,7 +62,6 @@ func (r *UsersRepository) UpdateUser(user *model.User, id *int) error {
 	if err != nil {
 		return errors.New("can't update user")
 	}
-
 	return nil
 }
 

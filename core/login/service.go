@@ -20,14 +20,14 @@ func NewLoginService(Repository ILoginRepository) ILoginService {
 }
 
 func (s *LoginService) Login(login *model.Login) (string, error) {
-	user := &model.User{}
+	var user model.User
 
-	err := s.repository.Login(login, user)
+	err := s.repository.Login(login, &user)
 	if err != nil {
 		return "", err
 	}
 
-	if user.Password != common.SHA256Enconder(login.Password) {
+	if common.SHA256Enconder(user.Password) != common.SHA256Enconder(login.Password) {
 		return "", errors.New("invalid credentials")
 	}
 

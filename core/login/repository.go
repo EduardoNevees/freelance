@@ -24,7 +24,7 @@ func NewLoginRepository(dataBase *gorm.DB) ILoginRepository {
 func (r *LoginRepository) Login(login *model.Login, user *model.User) error {
 	dbError := r.db.Where("email = ?", login.Email).First(&user).Error
 	if dbError != nil {
-		return errors.New("error: Can't find user")
+		return errors.New("error: Invalid Email")
 	}
 
 	return nil
