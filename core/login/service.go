@@ -31,7 +31,7 @@ func (s *LoginService) Login(login *dto.Login) (string, error) {
 		return "", errors.New("invalid credentials")
 	}
 
-	token, err := common.NewJWTService().GenerateToken(user.Role.Name)
+	token, err := common.NewJWTService().GenerateToken(user.Role)
 	if err != nil {
 		return "", err
 	}

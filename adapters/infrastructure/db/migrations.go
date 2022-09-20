@@ -1,11 +1,10 @@
 package db
 
 import (
-	"github.com/EduardoNevesRamos/frelancer.git/adapters/infrastructure/db/model"
+	"github.com/EduardoNevesRamos/frelancer.git/dto"
 	"gorm.io/gorm"
 )
 
 func RunMigrations(db *gorm.DB) {
-	db.AutoMigrate(model.Users{})
-	db.AutoMigrate(model.Role{})
+	db.AutoMigrate(dto.User{})
 }

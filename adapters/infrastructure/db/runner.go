@@ -36,7 +36,7 @@ func tryOpenConnection() {
 }
 
 func getUrlConnection() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)%s?parseTime=true&loc=Local",
+	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true&loc=Local",
 		env.DataBase.USER,
 		env.DataBase.PASSWORD,
 		env.DataBase.HOST,

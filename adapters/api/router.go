@@ -12,12 +12,17 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 
 	main := router.Group("api/v1")
 	{
-		users := main.Group("user", middleware.Auth())
+		users := main.Group("user")
 		{
-			users.GET("/", userControllerWithDependencies.GetUsers)
-			users.GET("/:id", userControllerWithDependencies.GetUserById)
-			users.PUT("/:id", userControllerWithDependencies.UpdateUser)
-			users.DELETE("/:id", userControllerWithDependencies.DeleteUser)
+			users.GET("/", userControllerWithDependencies.GetUsers, middleware.Auth())
+			users.GET("/:id", userControllerWithDependencies.GetUserById, middleware.Auth())
+			users.PUT("/:id", userControllerWithDependencies.UpdateUser, middleware.Auth())
+			users.DELETE("/:id", userControllerWithDependencies.DeleteUser, middleware.Auth())
+		}
+		create := main.Group("user/create")
+		{
+			create.POST("/", userControllerWithDependencies.CreateUser)
+
 		}
 
 		main.POST("login", loginControllerWithDependencies.Login)

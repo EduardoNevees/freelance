@@ -48,7 +48,8 @@ func (c *UserController) GetUserById(context *gin.Context) {
 }
 
 func (c *UserController) CreateUser(context *gin.Context) {
-	newUser := dto.User{}.WithUserRole()
+	newUser := dto.User{}
+	// .WithUserRole()
 
 	err := context.ShouldBindJSON(&newUser)
 	if err != nil {

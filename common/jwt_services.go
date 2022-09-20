@@ -21,13 +21,13 @@ func NewJWTService() *jwtService {
 }
 
 type Claim struct {
-	Sub string `json:"name"`
+	Sub string `json:"role"`
 	jwt.StandardClaims
 }
 
-func (s *jwtService) GenerateToken(Name string) (string, error) {
+func (s *jwtService) GenerateToken(Role string) (string, error) {
 	claim := &Claim{
-		Name,
+		Role,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 48).Unix(),
 			Issuer:    s.issure,
