@@ -19,13 +19,9 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			users.PUT("/:id", userControllerWithDependencies.UpdateUser)
 			users.DELETE("/:id", userControllerWithDependencies.DeleteUser)
 		}
-		create := main.Group("user/create")
-		{
-			create.POST("/", userControllerWithDependencies.CreateUser)
-
-		}
 
 		main.POST("login", loginControllerWithDependencies.Login)
+
 	}
 
 	return router
