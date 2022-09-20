@@ -7,7 +7,7 @@ import (
 )
 
 type User struct {
-	ID        uint64         `json:"Id"`
+	ID        uint64         `json:"id"`
 	Name      string         `json:"name"`
 	Email     string         `json:"email"`
 	Password  string         `json:"password"`
@@ -18,8 +18,11 @@ type User struct {
 }
 
 type Role struct {
-	ID   uint64 `json:"Id"`
-	Name string `json:"name"`
+	ID        uint64         `json:"id"`
+	Name      string         `json:"name"`
+	CreatedAt time.Time      `json:"created"`
+	UpdatedAt time.Time      `json:"updated"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted"`
 }
 
 func (u User) WithUserRole() User {
