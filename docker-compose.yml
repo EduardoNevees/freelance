@@ -1,7 +1,9 @@
 version: '3.1'
 services:
     mysql:
-        image: 'mysql:8.0'
+        image: mysql:latest
+        container_name: digital_users
+        restart: always
         environment:
             - MYSQL_ROOT_PASSWORD=digital-users
             - MYSQL_DATABASE=digital_users
@@ -9,4 +11,7 @@ services:
             - MYSQL_PASSWORD=digital-users@120902
         ports:
             - '3306:3306'
-
+        volumes:
+            - my-datavolume:/var/lib/mysql
+volumes:
+  my-datavolume:
