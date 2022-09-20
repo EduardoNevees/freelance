@@ -1,7 +1,9 @@
 package login
 
 import (
-	"github.com/EduardoNevesRamos/frelancer.git/model"
+	"net/http"
+
+	"github.com/EduardoNevesRamos/frelancer.git/dto"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,11 +20,11 @@ func NewLoginController(Service ILoginService) ILoginController {
 }
 
 func (c *LoginController) Login(context *gin.Context) {
-	login := &model.Login{}
+	login := &dto.Login{}
 
 	err := context.ShouldBindJSON(login)
 	if err != nil {
-		context.JSON(400, gin.H{
+		context.JSON(http.StatusBadRequest, gin.H{
 			"Error:": "Can't bind JSON" + err.Error(),
 		})
 		return
@@ -30,13 +32,13 @@ func (c *LoginController) Login(context *gin.Context) {
 
 	token, err := c.service.Login(login)
 	if err != nil {
-		context.JSON(400, gin.H{
+		context.JSON(http.StatusBadRequest, gin.H{
 			"Error:": err.Error(),
 		})
 		return
 	}
 
-	context.JSON(200, gin.H{
+	context.JSON(http.StatusOK, gin.H{
 		"token": token,
 	})
 }

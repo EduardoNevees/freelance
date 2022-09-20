@@ -3,12 +3,12 @@ package login
 import (
 	"errors"
 
-	"github.com/EduardoNevesRamos/frelancer.git/model"
+	"github.com/EduardoNevesRamos/frelancer.git/dto"
 	"gorm.io/gorm"
 )
 
 type ILoginRepository interface {
-	Login(login *model.Login, user *model.User) error
+	Login(login *dto.Login, user *dto.User) error
 }
 
 type LoginRepository struct {
@@ -21,7 +21,7 @@ func NewLoginRepository(dataBase *gorm.DB) ILoginRepository {
 	}
 }
 
-func (r *LoginRepository) Login(login *model.Login, user *model.User) error {
+func (r *LoginRepository) Login(login *dto.Login, user *dto.User) error {
 	dbError := r.db.Where("email = ?", login.Email).First(&user).Error
 	if dbError != nil {
 		return errors.New("error: Invalid Email")

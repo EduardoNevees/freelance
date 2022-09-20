@@ -4,11 +4,11 @@ import (
 	"errors"
 
 	"github.com/EduardoNevesRamos/frelancer.git/common"
-	"github.com/EduardoNevesRamos/frelancer.git/model"
+	"github.com/EduardoNevesRamos/frelancer.git/dto"
 )
 
 type ILoginService interface {
-	Login(login *model.Login) (string, error)
+	Login(login *dto.Login) (string, error)
 }
 
 type LoginService struct {
@@ -19,8 +19,8 @@ func NewLoginService(Repository ILoginRepository) ILoginService {
 	return &LoginService{Repository}
 }
 
-func (s *LoginService) Login(login *model.Login) (string, error) {
-	var user model.User
+func (s *LoginService) Login(login *dto.Login) (string, error) {
+	var user dto.User
 
 	err := s.repository.Login(login, &user)
 	if err != nil {
@@ -31,7 +31,7 @@ func (s *LoginService) Login(login *model.Login) (string, error) {
 		return "", errors.New("invalid credentials")
 	}
 
-	token, err := common.NewJWTService().GenerateToken(uint(user.ID))
+	token, err := common.NewJWTService().GenerateToken(user.Role.Name)
 	if err != nil {
 		return "", err
 	}

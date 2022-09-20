@@ -4,14 +4,14 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/EduardoNevesRamos/frelancer.git/model"
+	"github.com/EduardoNevesRamos/frelancer.git/dto"
 )
 
 type IService interface {
-	GetUsers() ([]model.User, error)
-	GetUserById(id string) (*model.User, error)
-	CreateUser(user *model.User) error
-	UpdateUser(user *model.User, id string) error
+	GetUsers() ([]dto.User, error)
+	GetUserById(id string) (*dto.User, error)
+	CreateUser(user *dto.User) error
+	UpdateUser(user *dto.User, id string) error
 	DeleteUser(id string) error
 }
 type UserService struct {
@@ -22,7 +22,7 @@ func NewUserService(repository IRepository) IService {
 	return &UserService{repository}
 }
 
-func (s *UserService) GetUsers() ([]model.User, error) {
+func (s *UserService) GetUsers() ([]dto.User, error) {
 	userResponse, err := s.repository.GetUsers()
 	if err != nil {
 		return nil, err
@@ -31,7 +31,7 @@ func (s *UserService) GetUsers() ([]model.User, error) {
 	return userResponse, nil
 }
 
-func (s *UserService) GetUserById(id string) (*model.User, error) {
+func (s *UserService) GetUserById(id string) (*dto.User, error) {
 	parseId, err := strconv.Atoi(id)
 	if err != nil {
 		return nil, errors.New("ID has to be integer")
@@ -45,7 +45,7 @@ func (s *UserService) GetUserById(id string) (*model.User, error) {
 	return userResponse, nil
 }
 
-func (s *UserService) CreateUser(user *model.User) error {
+func (s *UserService) CreateUser(user *dto.User) error {
 	err := s.repository.CreateUser(user)
 	if err != nil {
 		return err
@@ -54,7 +54,7 @@ func (s *UserService) CreateUser(user *model.User) error {
 	return nil
 }
 
-func (s *UserService) UpdateUser(user *model.User, id string) error {
+func (s *UserService) UpdateUser(user *dto.User, id string) error {
 	parseId, err := strconv.Atoi(id)
 	if err != nil {
 		return errors.New("ID has to be integer")

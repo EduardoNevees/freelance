@@ -2,7 +2,7 @@ package user
 
 import (
 	"github.com/EduardoNevesRamos/frelancer.git/common"
-	"github.com/EduardoNevesRamos/frelancer.git/model"
+	"github.com/EduardoNevesRamos/frelancer.git/dto"
 	"github.com/gin-gonic/gin"
 )
 
@@ -48,7 +48,8 @@ func (c *UserController) GetUserById(context *gin.Context) {
 }
 
 func (c *UserController) CreateUser(context *gin.Context) {
-	newUser := model.User{}
+	newUser := dto.User{}.WithUserRole()
+
 	err := context.ShouldBindJSON(&newUser)
 	if err != nil {
 		context.JSON(400, gin.H{
@@ -70,7 +71,7 @@ func (c *UserController) CreateUser(context *gin.Context) {
 func (c *UserController) UpdateUser(context *gin.Context) {
 	id := context.Param("id")
 
-	user := &model.User{}
+	user := &dto.User{}
 	err := context.ShouldBindJSON(&user)
 	if err != nil {
 		context.JSON(400, gin.H{
