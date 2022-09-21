@@ -48,8 +48,7 @@ func (c *UserController) GetUserById(context *gin.Context) {
 }
 
 func (c *UserController) CreateUser(context *gin.Context) {
-	newUser := dto.User{}
-	// .WithUserRole()
+	newUser := dto.User{}.WithUserRole()
 
 	err := context.ShouldBindJSON(&newUser)
 	if err != nil {
@@ -66,7 +65,7 @@ func (c *UserController) CreateUser(context *gin.Context) {
 
 	newUser.Password = common.SHA256Enconder(newUser.Password)
 
-	context.JSON(201, newUser)
+	context.JSON(201, nil)
 }
 
 func (c *UserController) UpdateUser(context *gin.Context) {
